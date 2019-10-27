@@ -1,0 +1,19 @@
+query ReportQuery($ReportNumber: String!) {
+    getReport(report_number: $ReportNumber){
+        report_number
+        report_date
+        report_type
+        results {
+            __typename
+            ... on DiamondGradingReportResults {
+                shape_and_cutting_style
+                carat_weight
+                clarity_grade
+                color_grade
+            }
+        }
+        quota {
+            remaining
+        }
+    }
+}
