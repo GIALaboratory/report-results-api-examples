@@ -1,4 +1,4 @@
-# GIA Report Result API Code Examples
+# GIA Report Results API Code Examples
 
 This repository contains example integrations to GIA's Report Results API in a variety of languages.
 
