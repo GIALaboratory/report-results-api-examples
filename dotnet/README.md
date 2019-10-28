@@ -32,7 +32,7 @@ JSON PAYLOAD TO BE POSTED TO THE SERVER
 
 JSON RESPONSE RECEIVED FROM THE API
 -----------------------------------
-{"data":{"getReport":{"report_number":"2141438172","report_date":"September 01, 2019","report_type":"Diamond Dossier","results":{"__typename":"DiamondGradingReportResults","shape_and_cutting_style":"Round Brilliant","carat_weight":"1.01 carat","clarity_grade":"SI2","color_grade":"G"},"quota":{"remaining":965758}}}}
+{"data":{"getReport":{"report_number":"2141438172","report_date":"September 01, 2019","report_type":"Diamond Dossier","results":{"__typename":"DiamondGradingReportResults","shape_and_cutting_style":"Round Brilliant","carat_weight":"1.01 carat","clarity_grade":"SI2","color_grade":"G"},"quota":{"remaining":965}}}}
 
 PARSED REPORT RESULTS
 ---------------------
