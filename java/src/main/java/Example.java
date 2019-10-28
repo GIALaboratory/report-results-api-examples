@@ -3,13 +3,11 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Set;
 import java.util.Map.Entry;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
 import org.apache.http.HttpEntity;
@@ -20,7 +18,13 @@ import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
 
+
 public class Example {
+    // Report number to look up. Can be provided on command line
+    public static final String DEFAULT_REPORT_NUMBER = "1206489210";
+    // Location of the graphql query
+    public static final String GRAPHQL_QUERY_FILE = "../graphql_query/report_results.graphql";
+
     public static void main(String[] args) {
         
         // Get parameters from environmental variables. Do not store secrets in code!
@@ -38,7 +42,7 @@ public class Example {
         }
 
         // Load the query from a file
-        String query_file = "../graphql_query/report_results.graphql";
+        String query_file = GRAPHQL_QUERY_FILE;
         String query = "";
         try {
             query = new String(Files.readAllBytes(Paths.get(query_file)));
@@ -48,7 +52,12 @@ public class Example {
         }
 
         // Set the report number to lookup
-        String reportNumber = "1206489210";
+        String reportNumber;
+        if (args.length == 0) {
+            reportNumber = DEFAULT_REPORT_NUMBER;
+        } else {
+            reportNumber = args[0];
+        }
         System.out.println("Looking up report number: " + reportNumber + "\n");
 
         // Construct the payload to be POSTed to the graphql server
@@ -138,7 +147,7 @@ public class Example {
 
         // Check for null values
         if (element.isJsonNull()) {
-            dict.put(path, element.getAsString());
+            dict.put(path, "null");
         }
 
         // All others are JSON primitives
