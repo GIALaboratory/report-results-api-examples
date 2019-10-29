@@ -9,7 +9,8 @@ Requires Java 1.8 and Maven
 set REPORT_CHECK_API_KEY=INSERT_YOUR_API_KEY_HERE
 set REPORT_CHECK_API_ENDPOINT=INSERT_THE_API_ENDPOINT_HERE
 
-TODO: How to run the java package?
+mvn clean package
+java -jar target/java-0.0.1-jar-with-dependencies.jar
 ```
 
 ### Output

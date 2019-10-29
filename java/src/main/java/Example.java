@@ -20,7 +20,6 @@ import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
 
-
 public class Example {
     // Report number to look up. Can be provided on command line
     public static final String DEFAULT_REPORT_NUMBER = "1206489210";
