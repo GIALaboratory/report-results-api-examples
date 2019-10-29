@@ -1,9 +1,11 @@
 import java.io.IOException;
 import java.nio.file.Files;
+import java.nio.file.NoSuchFileException;
 import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.net.UnknownHostException;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -46,7 +48,11 @@ public class Example {
         String query = "";
         try {
             query = new String(Files.readAllBytes(Paths.get(query_file)));
-        } catch (IOException e) {
+        } catch (NoSuchFileException e) {
+            System.out.println("Cannot find the graphql file at " + query_file);
+            System.exit(1);
+        }
+        catch (IOException e) {
             e.printStackTrace();
             System.exit(1);
         }
@@ -84,7 +90,10 @@ public class Example {
         // Set headers for the api key and content-type
         httpPost.setHeader("Authorization", key);
         httpPost.setHeader("Content-type", "application/json");
-        
+
+        // This Map will hold all the JSON elements in a flat structure
+        Map<String, String> dict = new HashMap<String, String>();
+
         try {
 
             // The payload is the JSON we created earlier
@@ -92,35 +101,49 @@ public class Example {
 
             // Send the request to the server
             CloseableHttpResponse response = httpclient.execute(httpPost);
-
+            
             // Retrieve the JSON result from the response
             HttpEntity result = response.getEntity();
             String jsonResult = EntityUtils.toString(result);
-
-
+            
             System.out.println("JSON RESPONSE RECEIVED FROM THE API");
             System.out.println("-----------------------------------");
             System.out.println(jsonResult + "\n");
+
+            // Check for any HTTP errors
+            if (response.getStatusLine().getStatusCode() != 200) {
+                System.out.println("HTTP error returned by the API: " + response.getStatusLine());
+                System.exit(1);
+            }
 
             // Parse the response (a string) into a JsonDocument so we can
             // traverse the structure
             JsonElement rootElement = JsonParser.parseString(jsonResult);
 
             // Save all elements to a Map
-            Map<String, String> dict = new HashMap<String, String>();
             flattenJsonDoc(rootElement, dict, "");
 
-            // Write all data to the console
-            System.out.println("PARSED REPORT RESULTS");
-            System.out.println("---------------------");
-
-            for (Entry<String, String> entry : dict.entrySet()) {
-                System.out.println(entry.getKey() + ": " + entry.getValue());
+            // Check for errors in the response
+            if (dict.containsKey("/errors/0/message")) {
+                System.out.print("Error processing request: ");
+                System.out.println(dict.get("/errors/0/message") + "\n");
             }
-        
+            
+        } catch (UnknownHostException e) {
+            System.out.println("Unknown host: " + url);
+            System.out.println("Check your network connection and the API endpoint URL.");
+            System.exit(1);
         } catch (Exception e) {
             e.printStackTrace();
             System.exit(1);
+        }
+
+        // Write all data to the console
+        System.out.println("PARSED REPORT RESULTS");
+        System.out.println("---------------------");
+
+        for (Entry<String, String> entry : dict.entrySet()) {
+            System.out.println(entry.getKey() + ": " + entry.getValue());
         }
     }
 
