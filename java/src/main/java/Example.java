@@ -7,11 +7,15 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.net.UnknownHostException;
 
+// Google's Gson to parse the JSON document
+// https://github.com/google/gson
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 
+// Apache HTTPComponents to make the HTTP request
+// https://hc.apache.org/
 import org.apache.http.HttpEntity;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpPost;
@@ -23,7 +27,7 @@ import org.apache.http.util.EntityUtils;
 public class Example {
     // Report number to look up. Can be provided on command line
     public static final String DEFAULT_REPORT_NUMBER = "1206489210";
-    // Location of the graphql query
+    // Location of the graphql query. This file should be moved to your resources directory.
     public static final String GRAPHQL_QUERY_FILE = "../graphql_query/report_results.graphql";
 
     public static void main(String[] args) {
@@ -43,12 +47,11 @@ public class Example {
         }
 
         // Load the query from a file
-        String query_file = GRAPHQL_QUERY_FILE;
         String query = "";
         try {
-            query = new String(Files.readAllBytes(Paths.get(query_file)));
+            query = new String(Files.readAllBytes(Paths.get(GRAPHQL_QUERY_FILE)));
         } catch (NoSuchFileException e) {
-            System.out.println("Cannot find the graphql file at " + query_file);
+            System.out.println("Cannot find the graphql file at " + GRAPHQL_QUERY_FILE);
             System.exit(1);
         }
         catch (IOException e) {
@@ -66,15 +69,14 @@ public class Example {
         System.out.println("Looking up report number: " + reportNumber + "\n");
 
         // Construct the payload to be POSTed to the graphql server
-        Map<String, String> query_variables = new HashMap<String, String>();
-        query_variables.put("ReportNumber", reportNumber);
+        Map<String, String> queryVariables = new HashMap<String, String>();
+        queryVariables.put("ReportNumber", reportNumber);
         Map<String, Object> payload = new HashMap<String, Object>();
         payload.put("query", query);
-        payload.put("variables", query_variables);
+        payload.put("variables", queryVariables);
 
         // Use Gson builder for pretty-printing, otherwise use: Gson gson = new Gson();
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
-
         String json = gson.toJson(payload);
 
         // Write the payload to the console
