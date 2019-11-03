@@ -33,16 +33,16 @@ public class Example {
     public static void main(String[] args) {
         
         // Get parameters from environmental variables. Do not store secrets in code!
-        String url = System.getenv("REPORT_CHECK_API_ENDPOINT");
-        String key = System.getenv("REPORT_CHECK_API_KEY");
+        String url = System.getenv("REPORT_RESULTS_API_ENDPOINT");
+        String key = System.getenv("REPORT_RESULTS_API_KEY");
 
         // Confirm that url and key are available
         if (url == null || url.isEmpty()) {
-            System.out.println("You must provide environment variable REPORT_CHECK_API_ENDPOINT.");
+            System.out.println("You must provide environment variable REPORT_RESULTS_API_ENDPOINT.");
             System.exit(1);
         }
         if (key == null || key.isEmpty()) {
-            System.out.println("You must provide environment variable REPORT_CHECK_API_KEY.");
+            System.out.println("You must provide environment variable REPORT_RESULTS_API_KEY.");
             System.exit(1);
         }
 

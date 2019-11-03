@@ -6,8 +6,8 @@ Requires Java 1.8 and Maven
 
 ### Configure environmental variables
 ```
-set REPORT_CHECK_API_KEY=INSERT_YOUR_API_KEY_HERE
-set REPORT_CHECK_API_ENDPOINT=INSERT_THE_API_ENDPOINT_HERE
+set REPORT_RESULTS_API_KEY=INSERT_YOUR_API_KEY_HERE
+set REPORT_RESULTS_API_ENDPOINT=INSERT_THE_API_ENDPOINT_HERE
 
 mvn clean package
 java -jar target/java-0.0.1-jar-with-dependencies.jar
