@@ -1,5 +1,5 @@
 
-# GIA Report Result API Code Example in C# .NET
+# GIA Report Results API Code Example in C# .NET
 
 ### Requirements
 Requires .Net SDK 3.0

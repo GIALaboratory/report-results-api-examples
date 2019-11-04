@@ -11,6 +11,7 @@ namespace rrapi_dotnet
     {
         public const string DEFAULT_REPORT_NUMBER = "1206489210";
         public const string GRAPHQL_QUERY_FILE = "../graphql_query/report_results.graphql";
+        
         static void Main(string[] args)
         {
             // Get parameters from environmental variables. Do not store secrets in code!
