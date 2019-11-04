@@ -9,31 +9,47 @@ namespace rrapi_dotnet
 
     class Program
     {
+        public const string DEFAULT_REPORT_NUMBER = "1206489210";
+        public const string GRAPHQL_QUERY_FILE = "../graphql_query/report_results.graphql";
         static void Main(string[] args)
         {
             // Get parameters from environmental variables. Do not store secrets in code!
-            string url = System.Environment.GetEnvironmentVariable("REPORT_CHECK_API_ENDPOINT");
-            string key = System.Environment.GetEnvironmentVariable("REPORT_CHECK_API_KEY");
+            string url = System.Environment.GetEnvironmentVariable("REPORT_RESULTS_API_ENDPOINT");
+            string key = System.Environment.GetEnvironmentVariable("REPORT_RESULTS_API_KEY");
 
             // Confirm that url and key are available
             if (string.IsNullOrEmpty(url) | string.IsNullOrEmpty(key))
             {
-                Console.WriteLine("You must provide environment variables REPORT_CHECK_API_ENDPOINT and REPORT_CHECK_API_KEY.");
+                Console.WriteLine("You must provide environment variables REPORT_RESULTS_API_ENDPOINT and REPORT_RESULTS_API_KEY.");
                 System.Environment.Exit(1);
             }
 
             // Load the query from a file
-            string query_file = "../graphql_query/report_results.graphql";
-            string query = File.ReadAllText(query_file);
+            string query = "";
+            try
+            {
+                query = File.ReadAllText(GRAPHQL_QUERY_FILE);
+            }
+            catch (System.IO.FileNotFoundException e)
+            {
+                Console.WriteLine(e.Message);
+                System.Environment.Exit(1);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+                Console.WriteLine(e.StackTrace);
+            }
 
             // Set the report number to lookup
             string reportNumber;
             if (args.Length == 0)
             {
-              reportNumber = "1206489210";
-            } else 
+                reportNumber = DEFAULT_REPORT_NUMBER;
+            }
+            else
             {
-              reportNumber = args[0];
+                reportNumber = args[0];
             }
             Console.WriteLine("Looking up report number: " + reportNumber + "\n");
 
@@ -41,7 +57,6 @@ namespace rrapi_dotnet
             var query_variables = new Dictionary<string, string> {
                 { "ReportNumber", reportNumber}
             };
-
             var payload = new Dictionary<string, object> {
                 { "query", query },
                 { "variables", query_variables }
@@ -69,8 +84,18 @@ namespace rrapi_dotnet
                 client.Headers.Add(HttpRequestHeader.Authorization, key);
                 client.Headers.Add(HttpRequestHeader.ContentType, "application/json");
 
-                // Send the payload as a JSON to the endpoint
-                string response = client.UploadString(url, json);
+                string response = "";
+                try
+                {
+                    // Send the payload as a JSON to the endpoint
+                    response = client.UploadString(url, json);
+                }
+                catch (System.Net.WebException e)
+                {
+                    Console.Write("Error accessing " + url + ": ");
+                    Console.WriteLine(e.Message);
+                    System.Environment.Exit(1);
+                }
 
                 Console.WriteLine("JSON RESPONSE RECEIVED FROM THE API");
                 Console.WriteLine("-----------------------------------");
@@ -82,6 +107,12 @@ namespace rrapi_dotnet
 
                 // Recursively flatten the JSON document into a dictionary
                 flattenJsonDoc(document.RootElement, reportResults);
+            }
+
+            // Check for errors in the response
+            if (reportResults.ContainsKey("/errors/0/message")) {
+                Console.Write("Error processing request: ");
+                Console.WriteLine(reportResults["/errors/0/message"] + "\n");
             }
 
             // Write all data to the console

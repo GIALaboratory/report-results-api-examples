@@ -7,8 +7,8 @@ https://dotnet.microsoft.com/learn/dotnet/hello-world-tutorial/install
 
 ### Configure environmental variables
 ```
-set REPORT_CHECK_API_KEY=INSERT_YOUR_API_KEY_HERE
-set REPORT_CHECK_API_ENDPOINT=INSERT_THE_API_ENDPOINT_HERE
+set REPORT_RESULTS_API_KEY=INSERT_YOUR_API_KEY_HERE
+set REPORT_RESULTS_API_ENDPOINT=INSERT_THE_API_ENDPOINT_HERE
 
 dotnet run
 dotnet run 2141438172
