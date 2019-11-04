@@ -1,0 +1,22 @@
+<!doctype html>
+
+<head>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+        crossorigin="anonymous">
+</head>
+<title>GIA Report Results API Python Example</title>
+{% block body %}
+
+<div class="container">
+
+    <h1>Report Results API Python Example</h1>
+
+    <h3>Lookup a report</h3>
+
+    <form class="form-inline my-2 my-lg-0" action="javascript:void(0);">
+        <input id="searchfield" class="form-control mr-sm-2" type="text" placeholder="Enter report number">
+        <a onclick="window.location='/reports/' + document.getElementById('searchfield').value;return false;" href="#" class="btn btn-success my-2 my-sm-0" type="submit">Search</a>
+    </form>
+
+</div>
+{% endblock %}

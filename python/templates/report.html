@@ -1,0 +1,553 @@
+<!doctype html>
+
+<head>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+        crossorigin="anonymous">
+
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.8/styles/default.min.css">
+    <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.8/highlight.min.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+
+</head>
+<title>Report Check API Example</title>
+
+{% block body %}
+
+<div class="container">
+
+    {% if data.data.report1.info_message %}
+    <div class="alert alert-primary" role="alert">
+        {{ data.data.report1.info_message }}
+    </div>
+    {% endif %}
+
+    {% if data.errors %}
+    {% for error in data.errors %}
+    <div class="alert alert-danger" role="alert">
+        {{ error.message }}
+    </div>
+    {% endfor %}
+    {% else %}
+
+    <h1>{{ data.data.report1.report_type }}</h1>
+
+    <table class="table table-bordered table-sm">
+
+        <tr>
+            <td>Report Number</td>
+            <td>{{ data.data.report1.report_number }}</td>
+        </tr>
+
+        <tr>
+            <td>Report Date</td>
+            <td>{{ data.data.report1.report_date }}</td>
+        </tr>
+
+    </table>
+
+    <h6>
+        <small class="text-muted">{{ data.data.report1.results.__typename }}</small>
+    </h6>
+
+    {% if data.data.report1.results.__typename == 'DiamondGradingReportResults' %}
+    <table class="table table-bordered table-sm">
+
+        <tr>
+            <td>Shape and Cutting Style</td>
+            <td>{{ data.data.report1.results.shape_and_cutting_style }}</td>
+        </tr>
+
+        <tr>
+            <td>Measurements</td>
+            <td>{{ data.data.report1.results.measurements }}</td>
+        </tr>
+
+        <tr>
+            <td>Carat Weight</td>
+            <td>{{ data.data.report1.results.carat_weight }}</td>
+        </tr>
+
+        <tr>
+            <td>Color Grade</td>
+            <td>{{ data.data.report1.results.color_grade }}</td>
+        </tr>
+
+        <tr>
+            <td>Color Origin</td>
+            <td>{{ data.data.report1.results.color_origin|default("N/A", true) }}</td>
+        </tr>
+
+        <tr>
+            <td>Color Distribution</td>
+            <td>{{ data.data.report1.results.color_distribution|default("N/A", true) }}</td>
+        </tr>
+
+        <tr>
+            <td>Clarity Grade</td>
+            <td>{{ data.data.report1.results.clarity_grade }}</td>
+        </tr>
+
+        <tr>
+            <td>Cut Grade</td>
+            <td>{{ data.data.report1.results.cut_grade|default("N/A", true) }}</td>
+        </tr>
+
+        <tr>
+            <td>Polish</td>
+            <td>{{ data.data.report1.results.polish }}</td>
+        </tr>
+
+        <tr>
+            <td>Symmetry</td>
+            <td>{{ data.data.report1.results.symmetry }}</td>
+        </tr>
+
+        <tr>
+            <td>Fluorescence</td>
+            <td>{{ data.data.report1.results.fluorescence }}</td>
+        </tr>
+
+        <tr>
+            <td>Country of Origin</td>
+            <td>{{ data.data.report1.results.country_of_origin|default("N/A", true) }}</td>
+        </tr>
+
+        <tr>
+            <td>Clarity Characteristics</td>
+            <td>{{ data.data.report1.results.clarity_characteristics|default("N/A", true) }}</td>
+        </tr>
+
+        <tr>
+            <td>Inscriptions</td>
+            <td>{{ data.data.report1.results.inscriptions|default("N/A", true) }}</td>
+        </tr>
+
+        <tr>
+            <td>Report Comments</td>
+            <td>{{ data.data.report1.results.report_comments }}</td>
+        </tr>
+
+    </table>
+
+    <h2>Proportions</h2>
+
+    <table class="table table-bordered table-sm">
+        <tr>
+            <td>Table Percent</td>
+            <td>{{ data.data.report1.results.proportions.table_pct|default("N/A", true) }}%</td>
+        </tr>
+
+        <tr>
+            <td>Depth Percent</td>
+            <td>{{ data.data.report1.results.proportions.depth_pct|default("N/A", true) }}%</td>
+        </tr>
+
+        {% if data.data.report1.results.proportions.crown_angle %}
+        <tr>
+            <td>Crown Angle</td>
+            <td>{{ data.data.report1.results.proportions.crown_angle }}&deg;</td>
+        </tr>
+        {% endif %}
+
+        {% if data.data.report1.results.proportions.crown_height %}
+        <tr>
+            <td>Crown Height</td>
+            <td>{{ data.data.report1.results.proportions.crown_height }}%</td>
+        </tr>
+        {% endif %}
+
+        {% if data.data.report1.results.proportions.pavilion_angle %}
+        <tr>
+            <td>Pavilion Angle</td>
+            <td>{{ data.data.report1.results.proportions.pavilion_angle }}&deg;</td>
+        </tr>
+        {% endif %}
+
+        {% if data.data.report1.results.proportions.pavilion_depth %}
+        <tr>
+            <td>Pavilion Depth</td>
+            <td>{{ data.data.report1.results.proportions.pavilion_depth }}%</td>
+        </tr>
+        {% endif %}
+
+        {% if data.data.report1.results.proportions.star_length %}
+        <tr>
+            <td>Star Length</td>
+            <td>{{ data.data.report1.results.proportions.star_length }}%</td>
+        </tr>
+        {% endif %}
+
+        {% if data.data.report1.results.proportions.lower_half %}
+        <tr>
+            <td>Lower Half</td>
+            <td>{{ data.data.report1.results.proportions.lower_half }}%</td>
+        </tr>
+        {% endif %}
+
+        <tr>
+            <td>Girdle</td>
+            <td>{{ data.data.report1.results.proportions.girdle|default("N/A", true) }}</td>
+        </tr>
+        <tr>
+            <td>Culet</td>
+            <td>{{ data.data.report1.results.proportions.culet|default("N/A", true) }}</td>
+        </tr>
+    </table>
+
+    {% if data.data.report1.links.proportions_diagram %}
+    <h6>Proportions Diagram</h6>
+    <div style='max-width: 20rem'>
+        <img src="{{ data.data.report1.links.proportions_diagram }}" class="img-fluid">
+    </div>
+    {% else %}
+    <p>Proportions diagram not available.</p>
+    {% endif %}
+
+    {% endif %}
+
+    {% if data.data.report1.results.__typename == 'IdentificationReportResults' %}
+    <table class="table table-bordered table-sm">
+
+        <tr>
+            <td>Weight</td>
+            <td>{{ data.data.report1.results.weight|default("N/A", true) }}</td>
+        </tr>
+
+        <tr>
+            <td>Measurements</td>
+            <td>{{ data.data.report1.results.measurements|default("N/A", true) }}</td>
+        </tr>
+        <tr>
+            <td>Shape</td>
+            <td>{{ data.data.report1.results.shape|default("N/A", true) }}</td>
+        </tr>
+        <tr>
+            <td>Cutting Style</td>
+            <td>{{ data.data.report1.results.cutting_style|default("N/A", true) }}</td>
+        </tr>
+        <tr>
+            <td>Cutting Style Crown</td>
+            <td>{{ data.data.report1.results.cutting_style_crown|default("N/A", true) }}</td>
+        </tr>
+        <tr>
+            <td>Cutting Style Pavilion</td>
+            <td>{{ data.data.report1.results.cutting_style_pavilion|default("N/A", true) }}</td>
+        </tr>
+        <tr>
+            <td>Transparency</td>
+            <td>{{ data.data.report1.results.transparency|default("N/A", true) }}</td>
+        </tr>
+        <tr>
+            <td>Color</td>
+            <td>{{ data.data.report1.results.color|default("N/A", true) }}</td>
+        </tr>
+        <tr>
+            <td>Phenomenon</td>
+            <td>{{ data.data.report1.results.phenomenon|default("N/A", true) }}</td>
+        </tr>
+        <tr>
+            <td>Item Description</td>
+            <td>{{ data.data.report1.results.item_description|default("N/A", true) }}</td>
+        </tr>
+        <tr>
+            <td>Species</td>
+            <td>{{ data.data.report1.results.species|default("N/A", true) }}</td>
+        </tr>
+        <tr>
+            <td>Variety</td>
+            <td>{{ data.data.report1.results.variety|default("N/A", true) }}</td>
+        </tr>
+        <tr>
+            <td>Geographic Origin</td>
+            <td>{{ data.data.report1.results.geographic_origin|default("N/A", true) }}</td>
+        </tr>
+        <tr>
+            <td>Treatment</td>
+            <td>{{ data.data.report1.results.treatment|default("N/A", true) }}</td>
+        </tr>
+        <tr>
+            <td>Report Comments</td>
+            <td>{{ data.data.report1.results.report_comments|default("N/A", true) }}</td>
+        </tr>
+
+    </table>
+    {% endif %}
+
+    {% if data.data.report1.results.__typename == 'NarrativeReportResults' %}
+    <table class="table table-bordered table-sm">
+        <tr>
+            <td>Report Title</td>
+            <td>{{ data.data.report1.results.report_title|default("N/A", true) }}</td>
+        </tr>
+
+        <tr>
+            <td>Description</td>
+            <td>{{ data.data.report1.results.description|default("N/A", true) }}</td>
+        </tr>
+        <tr>
+            <td>Conclusion</td>
+            <td>{{ data.data.report1.results.conclusion|default("N/A", true) }}</td>
+        </tr>
+        <tr>
+            <td>Report Comments</td>
+            <td>{{ data.data.report1.results.report_comments|default("N/A", true) }}</td>
+        </tr>
+        <tr>
+            <td>Inscriptions</td>
+            <td>{{ data.data.report1.results.inscriptions|default("N/A", true) }}</td>
+        </tr>
+    </table>
+    {% endif %}
+
+    {% if data.data.report1.results.__typename == 'PearlIdentReportResults' %}
+    <table class="table table-bordered table-sm">
+        <tr>
+            <td>Report Title</td>
+            <td>{{ data.data.report1.results.report_title|default("N/A", true) }}</td>
+        </tr>
+
+        <tr>
+            <td>Item Description</td>
+            <td>{{ data.data.report1.results.item_description|default("N/A", true) }}</td>
+        </tr>
+        <tr>
+            <td>Weight</td>
+            <td>{{ data.data.report1.results.weight|default("N/A", true) }}</td>
+        </tr>
+        <tr>
+            <td>Measurements</td>
+            <td>{{ data.data.report1.results.measurements|default("N/A", true) }}</td>
+        </tr>
+        <tr>
+            <td>Shape</td>
+            <td>{{ data.data.report1.results.shape|default("N/A", true) }}</td>
+        </tr>
+        <tr>
+            <td>Body Color</td>
+            <td>{{ data.data.report1.results.bodycolor|default("N/A", true) }}</td>
+        </tr>
+        <tr>
+            <td>Overtone</td>
+            <td>{{ data.data.report1.results.overtone|default("N/A", true) }}</td>
+        </tr>
+        <tr>
+            <td>Identification</td>
+            <td>{{ data.data.report1.results.identification|default("N/A", true) }}</td>
+        </tr>
+        <tr>
+            <td>Environment</td>
+            <td>{{ data.data.report1.results.environment|default("N/A", true) }}</td>
+        </tr>
+        <tr>
+            <td>Mollusk</td>
+            <td>{{ data.data.report1.results.mollusk|default("N/A", true) }}</td>
+        </tr>
+        <tr>
+            <td>Treatment</td>
+            <td>{{ data.data.report1.results.treatment|default("N/A", true) }}</td>
+        </tr>
+        <tr>
+            <td>Report Comments</td>
+            <td>{{ data.data.report1.results.report_comments|default("N/A", true) }}</td>
+        </tr>
+    </table>
+    {% endif %}
+
+    {% if data.data.report1.results.__typename == 'LabGrownDiamondGradingReportResults' %}
+    <table class="table table-bordered table-sm">
+        <tr>
+            <td>Identification</td>
+            <td>{{ data.data.report1.results.identification }}</td>
+        </tr>
+
+        <tr>
+            <td>Shape and Cutting Style</td>
+            <td>{{ data.data.report1.results.shape_and_cutting_style }}</td>
+        </tr>
+        <tr>
+            <td>Measurements</td>
+            <td>{{ data.data.report1.results.measurements }}</td>
+        </tr>
+        <tr>
+            <td>Carat Weight</td>
+            <td>{{ data.data.report1.results.carat_weight }}</td>
+        </tr>
+        <tr>
+            <td>Color Grade</td>
+            <td>{{ data.data.report1.results.color_grade }}</td>
+        </tr>
+        <tr>
+            <td>Color Origin</td>
+            <td>{{ data.data.report1.results.color_origin|default("N/A", true) }}</td>
+        </tr>
+        <tr>
+            <td>Color Distribution</td>
+            <td>{{ data.data.report1.results.color_distribution|default("N/A", true) }}</td>
+        </tr>
+        <tr>
+            <td>Clarity Grade</td>
+            <td>{{ data.data.report1.results.clarity_grade }}</td>
+        </tr>
+        <tr>
+            <td>Cut Grade</td>
+            <td>{{ data.data.report1.results.cut_grade|default("N/A", true) }}</td>
+        </tr>
+        <tr>
+            <td>Polish</td>
+            <td>{{ data.data.report1.results.polish }}</td>
+        </tr>
+        <tr>
+            <td>Symmetry</td>
+            <td>{{ data.data.report1.results.symmetry }}</td>
+        </tr>
+        <tr>
+            <td>Fluorescence</td>
+            <td>{{ data.data.report1.results.fluorescence }}</td>
+        </tr>
+
+        <tr>
+            <td>Inscriptions</td>
+            <td>{{ data.data.report1.results.inscriptions }}</td>
+        </tr>
+
+        <tr>
+            <td>Report Comments</td>
+            <td>{{ data.data.report1.results.report_comments }}</td>
+        </tr>
+    </table>
+    {% endif %}
+
+    {% if data.data.report1.results.__typename == 'MeleeServiceResults' %}
+
+        {% for package in data.data.report1.results.packages | sort(attribute="service_results_number") %}
+
+        <h5>{{ package.service_results_number }}</h5>
+
+        <table>
+            <tr>
+                <td>Issue Date</td>
+                <td>{{ package.issue_date }}</td>
+            </tr>
+            <tr>
+                <td>Diameter</td>
+                <td>{{ package.diameter }}</td>
+            </tr>
+            <tr>
+                <td>Total Carat Weight</td>
+                <td>{{ package.total_carat_weight }}</td>
+            </tr>
+            <tr>
+                <td>Color Range</td>
+                <td>{{ package.color_range }}</td>
+            </tr>
+            <tr>
+                <td>Melee Shape</td>
+                <td>{{ package.melee_shape }}</td>
+            </tr>
+            <tr>
+                <td>Material Test Results</td>
+                <td>{{ package.material_test_results }}</td>
+            </tr>
+            <tr>
+                <td>Number of Items</td>
+                <td>{{ package.number_of_items }}</td>
+            </tr>
+            <tr>
+                <td>Comments</td>
+                <td>{{ package.comments }}</td>
+            </tr>
+        </table>
+
+        {% endfor %}
+
+    {% endif %}
+
+    <h2>Links</h2>
+
+    <h6>PDF</h6>
+    {% if data.data.report1.links.pdf %}
+    <a href="{{ data.data.report1.links.pdf }}">View PDF</a>
+    {% else %}
+    <p>PDF is not available.</p>
+    {% endif %}
+
+    <h6>Plotting Diagram</h6>
+    {% if data.data.report1.links.plotting_diagram %}
+    <div style='max-width: 20rem'>
+        <img src="{{ data.data.report1.links.plotting_diagram }}" class="img-fluid">
+        {% if data.data.report1.results.key_to_symbols %}
+        <ul class="list-unstyled">
+            {% for item in data.data.report1.results.key_to_symbols | sort(attribute="order") %}
+            <li><img src="{{item.image}}" style="max-width: 1.5rem">{{ item.characteristic }}</li>
+            {% endfor %}
+        </ul>
+        {% else %}
+        <p>Key to Symbols is not available.</p>
+        {% endif %}
+    </div>
+    {% else %}
+    <p>Plotting diagram not available.</p>
+    {% endif %}
+
+    <h6>Image</h6>
+    {% if data.data.report1.links.image %}
+    <div style='max-width: 20rem'>
+        <img src="{{ data.data.report1.links.image }}" class="img-fluid">
+    </div>
+    {% else %}
+    <p>Image is not available.</p>
+    {% endif %}
+
+    <h6>Rough Image</h6>
+    {% if data.data.report1.links.rough_image %}
+    <div style='max-width: 20rem'>
+        <img src="{{ data.data.report1.links.rough_image }}" class="img-fluid">
+    </div>
+    {% else %}
+    <p>Rough Image is not available.</p>
+    {% endif %}
+
+    <h6>Polished Image</h6>
+    {% if data.data.report1.links.polished_image %}
+    <div style='max-width: 20rem'>
+        <img src="{{ data.data.report1.links.polished_image }}" class="img-fluid">
+    </div>
+    {% else %}
+    <p>Polished Image is not available.</p>
+    {% endif %}
+
+    <h6>Rough Video</h6>
+    {% if data.data.report1.links.rough_video %}
+    <video style='max-width: 20rem' autobuffer="autobuffer" autoplay="autoplay" loop="loop" controls="controls">
+        <source src='{{ data.data.report1.links.rough_video }}'>
+    </video>
+    {% else %}
+    <p>Rough Video is not available.</p>
+    {% endif %}
+
+    <h6>Polished Video</h6>
+    {% if data.data.report1.links.polished_video %}
+    <video style='max-width: 20rem' autobuffer="autobuffer" autoplay="autoplay" loop="loop" controls="controls">
+        <source src='{{ data.data.report1.links.polished_video }}'>
+    </video>
+    {% else %}
+    <p>Polished Video is not available.</p>
+    {% endif %}
+
+    {% endif %}
+
+    <div class="alert alert-info" role="alert">
+        You have <strong>{{ data.data.quota.remaining }}</strong> report queries remaining in your quota.
+    </div>
+
+    <h2>Raw Output</h2>
+
+    <pre>
+        <code class='json'>
+            {{ raw_data | safe }}
+        </code>
+    </pre>
+
+
+</div>
+{% endblock %}
