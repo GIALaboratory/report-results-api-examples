@@ -1,0 +1,19 @@
+{
+    "query" : "query ReportQuery($ReportNumber: String!) {
+ 
+        report1: getReport(report_number: $ReportNumber){
+          report_number
+          report_date
+          report_type
+          results {
+            ... on DiamondGradingReportResults {
+                carat_weight
+                color_grade
+                clarity_grade
+                cut_grade
+            }
+          }
+        }
+      }", 
+    "variables": {"ReportNumber": "2141438171"}
+}
