@@ -15,6 +15,9 @@ jobs:
     - uses: actions/checkout@v2
     - name: Setup .NET Core
       uses: actions/setup-dotnet@v1
+      env: 
+        REPORT_RESULTS_API_ENDPOINT: ${{ secrets.REPORT_RESULTS_API_ENDPOINT }}
+        REPORT_RESULTS_API_KEY: ${{ secrets.REPORT_RESULTS_API_KEY }}
       with:
         dotnet-version: 3.1.101
     - name: Test
