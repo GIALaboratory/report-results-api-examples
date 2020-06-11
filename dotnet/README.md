@@ -10,8 +10,8 @@ https://dotnet.microsoft.com/learn/dotnet/hello-world-tutorial/install
 set REPORT_RESULTS_API_KEY=INSERT_YOUR_API_KEY_HERE
 set REPORT_RESULTS_API_ENDPOINT=INSERT_THE_API_ENDPOINT_HERE
 
-dotnet run
-dotnet run 2141438172
+dotnet run --project ./dotnet
+dotnet run --project ./dotnet 2141438172
 ```
 
 ### Output

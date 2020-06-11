@@ -10,7 +10,7 @@ namespace rrapi_dotnet
     class Program
     {
         public const string DEFAULT_REPORT_NUMBER = "1206489210";
-        public const string GRAPHQL_QUERY_FILE = "../graphql_query/report_results.graphql";
+        public const string GRAPHQL_QUERY_FILE = "dotnet/report_results.graphql";
         
         static void Main(string[] args)
         {
