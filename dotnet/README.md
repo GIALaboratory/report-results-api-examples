@@ -1,6 +1,8 @@
 
 # GIA Report Results API Code Example in C# .NET
 
+![.NET Core](https://github.com/GIALaboratory/report-results-api-examples/workflows/.NET%20Core/badge.svg)
+
 ### Requirements
 Requires .Net SDK 3.0
 https://dotnet.microsoft.com/learn/dotnet/hello-world-tutorial/install
