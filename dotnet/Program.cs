@@ -1,8 +1,11 @@
 ﻿using System;
-using System.Net;
 using System.Collections.Generic;
-using System.Text.Json;
 using System.IO;
+using System.Net;
+using System.Net.Http;
+using System.Text;
+using System.Text.Json;
+using System.Threading.Tasks;
 
 namespace rrapi_dotnet
 {
@@ -11,12 +14,12 @@ namespace rrapi_dotnet
     {
         public const string DEFAULT_REPORT_NUMBER = "1206489210";
         public const string GRAPHQL_QUERY_FILE = "dotnet/report_results.graphql";
-        
-        static void Main(string[] args)
+
+        static async Task Main(string[] args)
         {
             // Get parameters from environmental variables. Do not store secrets in code!
-            string url = System.Environment.GetEnvironmentVariable("REPORT_RESULTS_API_ENDPOINT");
-            string key = System.Environment.GetEnvironmentVariable("REPORT_RESULTS_API_KEY");
+            string url = Environment.GetEnvironmentVariable("REPORT_RESULTS_API_ENDPOINT");
+            string key = Environment.GetEnvironmentVariable("REPORT_RESULTS_API_KEY");
 
             // Confirm that url and key are available
             if (string.IsNullOrEmpty(url) | string.IsNullOrEmpty(key))
@@ -79,39 +82,44 @@ namespace rrapi_dotnet
             // The results will be saved in this dictionary
             Dictionary<string, string> reportResults = new Dictionary<string, string>();
 
-            using (var client = new WebClient())
+            using (var client = new HttpClient())
             {
                 // Set headers for the api key and content-type
-                client.Headers.Add(HttpRequestHeader.Authorization, key);
-                client.Headers.Add(HttpRequestHeader.ContentType, "application/json");
+                client.DefaultRequestHeaders.Add(HttpRequestHeader.Authorization.ToString(), key);
+                client.DefaultRequestHeaders.Add(HttpRequestHeader.ContentType.ToString(), "application/json");
 
-                string response = "";
+                HttpResponseMessage response;
+                string jsonResponse = "";
                 try
                 {
+                    var content = new StringContent(json.ToString(), Encoding.UTF8, "application/json");
                     // Send the payload as a JSON to the endpoint
-                    response = client.UploadString(url, json);
+                    response = await client.PostAsync(url, content);
+                    // read the response
+                    jsonResponse = await response.Content.ReadAsStringAsync();
                 }
-                catch (System.Net.WebException e)
+                catch (WebException e)
                 {
                     Console.Write("Error accessing " + url + ": ");
                     Console.WriteLine(e.Message);
-                    System.Environment.Exit(1);
+                    Environment.Exit(1);
                 }
 
                 Console.WriteLine("JSON RESPONSE RECEIVED FROM THE API");
                 Console.WriteLine("-----------------------------------");
-                Console.WriteLine(response + "\n");
+                Console.WriteLine(jsonResponse + "\n");
 
                 // Parse the response (a string) into a JsonDocument so we can
                 // traverse the fields
-                JsonDocument document = JsonDocument.Parse(response);
+                JsonDocument document = JsonDocument.Parse(jsonResponse);
 
                 // Recursively flatten the JSON document into a dictionary
                 flattenJsonDoc(document.RootElement, reportResults);
             }
 
             // Check for errors in the response
-            if (reportResults.ContainsKey("/errors/0/message")) {
+            if (reportResults.ContainsKey("/errors/0/message"))
+            {
                 Console.Write("Error processing request: ");
                 Console.WriteLine(reportResults["/errors/0/message"] + "\n");
             }
