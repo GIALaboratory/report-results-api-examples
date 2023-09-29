@@ -26,7 +26,8 @@ import org.apache.http.util.EntityUtils;
 
 public class Example {
     // Report number to look up. Can be provided on command line
-    public static final String DEFAULT_REPORT_NUMBER = "1206489210";
+    public static final String DEFAULT_REPORT_NUMBER = "2141438172";
+
     // Location of the graphql query. This file should be moved to your resources directory.
     public static final String GRAPHQL_QUERY_FILE = "../graphql_query/report_results.graphql";
 
