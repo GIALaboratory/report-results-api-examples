@@ -4,7 +4,7 @@
 ![.NET 7.0](https://github.com/GIALaboratory/report-results-api-examples/workflows/.NET%207.0/badge.svg)
 
 ### Requirements
-Requires .NET 7.0
+Requires .NET SDK 7.0
 https://dotnet.microsoft.com/learn/dotnet/hello-world-tutorial/install
 
 ### Configure environmental variables
